@@ -12,7 +12,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import com.situ.student.entity.Student;
-
+/**
+ * DAO层：用IO流实现文件的保存和加载
+ * @author Administrator
+ */
 public class StudentDao {
 	List<Student> list = new ArrayList<Student>();
 	private static final String FILE = "F:/ppp.txt";
@@ -85,8 +88,7 @@ public class StudentDao {
 
 
 
-
-// 从控制台进行增删改查
+// 下面是内容是从控制台进行增删改查
 //public static void main(String[] args) {
 //	StudentManager studentManager = new StudentManager();
 //	studentManager.load();

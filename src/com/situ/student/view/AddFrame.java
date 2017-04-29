@@ -16,7 +16,10 @@ import javax.swing.JTextField;
 import com.situ.student.biz.StudentManager;
 import com.situ.student.entity.Student;
 import com.situ.student.util.CallBack;
-
+/**
+ * 点击新增按钮时弹出“新增学生”窗口，录入完成后，点击保存，自动存入文件并通知StudentFrame刷新主窗口
+ * @author Administrator
+ */
 public class AddFrame {
 	List<Student> list;
 	StudentManager studentManager = new StudentManager();
@@ -31,6 +34,7 @@ public class AddFrame {
 	}
 
 	public void add() {
+		// 新建一个窗口并建立主面板
 		JFrame frame = new JFrame();
 		frame.setTitle("添加学生");
 		frame.setSize(350, 260);
@@ -39,7 +43,8 @@ public class AddFrame {
 		mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		BoxLayout boxLayout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
 		mainPanel.setLayout(boxLayout);
-
+		
+		// 建立4个子面板，并添加到主面板
 		JPanel panel1 = new JPanel();
 		JLabel nameLabel = new JLabel();
 		nameLabel.setText("姓名");
@@ -76,13 +81,14 @@ public class AddFrame {
 					student.setName(nameTextField.getText());
 					student.setSex(sexTextField.getText());
 					student.setAge(Integer.parseInt(ageTextField.getText()));
-					list = studentManager.load();
-					list.add(student);
+					list = studentManager.load(); // 从文件中加载最新的所有学生信息
+					list.add(student); // 添加新增的学生并保存
 					studentManager.save(list);
 					callBack.callBack();
-//					nameTextField.setText("");
-//					sexTextField.setText("");
-//					ageTextField.setText("");
+					// 点击保存后，清除文本框内容
+					nameTextField.setText("");
+					sexTextField.setText("");
+					ageTextField.setText("");
 				}
 			}
 		});

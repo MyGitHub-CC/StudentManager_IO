@@ -1,9 +1,12 @@
 package com.situ.student.entity;
 
 import java.io.Serializable;
-
+/**
+ * 实体类：学生的基本信息
+ * @author Administrator
+ */
 @SuppressWarnings("serial")
-public class Student implements Serializable{
+public class Student implements Serializable {
 	private String name;
 	private String sex;
 	private int age;

@@ -32,8 +32,9 @@ public class StudentFrame {
 	JTable table;
 
 	public void init() {
+		// 新建学生信息管理系统主界面，并建立主面板，设置为纵向流布局
 		JFrame frame = new JFrame();
-		frame.setTitle("学生信息管理系统");
+		frame.setTitle("欢迎进入学生信息管理系统");
 		frame.setSize(600, 500);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,6 +43,7 @@ public class StudentFrame {
 		BoxLayout boxLayout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
 		mainPanel.setLayout(boxLayout);
 
+		// 新建3个子面板，并添加到主面板
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 		JLabel nameLabel = new JLabel();
@@ -62,7 +64,7 @@ public class StudentFrame {
 		ageTextField = new JTextField();
 		ageTextField.setPreferredSize(new Dimension(90, 30));
 		panel1.add(ageTextField);
-		
+
 		JButton searchButton = new JButton();
 		searchButton.setText("查找");
 		searchButton.setPreferredSize(new Dimension(60, 30));
@@ -71,7 +73,6 @@ public class StudentFrame {
 			public void actionPerformed(ActionEvent e) {
 				searchStudent();
 			}
-
 		});
 		panel1.add(searchButton);
 		mainPanel.add(panel1);
@@ -88,7 +89,6 @@ public class StudentFrame {
 
 		JPanel panel3 = new JPanel();
 		panel3.setLayout(new FlowLayout(FlowLayout.CENTER, 80, 20));
-
 		JButton addButton = new JButton();
 		addButton.setText("新增");
 		addButton.setPreferredSize(new Dimension(60, 30));
@@ -105,7 +105,7 @@ public class StudentFrame {
 			}
 		});
 		panel3.add(addButton);
-		
+
 		JButton modifyButton = new JButton();
 		modifyButton.setText("修改");
 		modifyButton.setPreferredSize(new Dimension(60, 30));
@@ -115,19 +115,19 @@ public class StudentFrame {
 				int index = table.getSelectedRow();
 				if (index > -1) {
 					ModifyFrame modifyFrame = new ModifyFrame(new CallBack() {
-					@Override
-					public void callBack() {
-						refreshFrame();
-					}
-				}, index);
-				modifyFrame.modify();
+						@Override
+						public void callBack() {
+							refreshFrame();
+						}
+					}, index);
+					modifyFrame.modify();
 				} else {
 					JOptionPane.showMessageDialog(null, "请选中要修改的学生！");
 				}
 			}
 		});
 		panel3.add(modifyButton);
-		
+
 		JButton deleteButton = new JButton();
 		deleteButton.setText("删除");
 		deleteButton.setPreferredSize(new Dimension(60, 30));
@@ -136,7 +136,8 @@ public class StudentFrame {
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
 				if (index > -1) {
-					int result = JOptionPane.showConfirmDialog(null, "是否要删除记录?", "标题YES_NO_OPTION", 0);
+					int result = JOptionPane.showConfirmDialog(null,
+							"是否要删除记录?", "标题YES_NO_OPTION", 0);
 					if (result == 0) {
 						list.remove(index);
 						studentManager.save(list);
@@ -153,16 +154,17 @@ public class StudentFrame {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * 回调函数时使用，用于刷新主面板上的内容
+	 */
 	public void refreshFrame() {
 		list = studentManager.load();
 		studentTableModel.setData(list);
 	}
-	
-	public void refreshFrame(Student student) {
-		list = studentManager.load();
-		studentTableModel.setData(list);
-	}
 
+	/**
+	 * 查询学生信息：根据姓名或性别或年龄查询，若三个都为空时，查询全部学生的信息
+	 */
 	public void searchStudent() {
 		List<Student> searchList = new ArrayList<Student>();
 		Student student = new Student();
@@ -172,8 +174,7 @@ public class StudentFrame {
 		if (!isName && isSex && isAge) {
 			boolean isSearchByName = false;
 			for (int i = 0; i < list.size(); i++) {
-				if (nameTextField.getText().equals(
-						list.get(i).getName())) {
+				if (nameTextField.getText().equals(list.get(i).getName())) {
 					student = list.get(i);
 					searchList.add(student);
 					isSearchByName = true;
@@ -201,8 +202,8 @@ public class StudentFrame {
 		} else if (isName && isSex && !isAge) {
 			boolean isSearchByAge = false;
 			for (int i = 0; i < list.size(); i++) {
-				if (Integer.parseInt(ageTextField.getText()) == list
-						.get(i).getAge()) {
+				if (Integer.parseInt(ageTextField.getText()) == list.get(i)
+						.getAge()) {
 					student = list.get(i);
 					searchList.add(student);
 					isSearchByAge = true;
